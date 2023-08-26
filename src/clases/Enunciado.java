@@ -6,6 +6,8 @@
 package clases;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,14 +17,28 @@ public class Enunciado implements Serializable
 {
     private static final long serialVersionUID = 1L;
   
-    private Long id;
+    private Integer id;
     
     private String descripcion;
     
     private Dificultad dificultad;
     
     private boolean disponibleClase;
+    
+    private String ruta;
+    
+    //Relaciones
+    private List<Unidad> unidades = new ArrayList<>();
+    
+    private List<ConvocatoriaExamen> convocatorias = new ArrayList<>();
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
     public String getDescripcion() {
         return descripcion;
     }
@@ -47,12 +63,28 @@ public class Enunciado implements Serializable
         this.disponibleClase = disponibleClase;
     }
     
-    public Long getId() {
-        return id;
+      public String getRuta() {
+        return ruta;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRuta(String ruta) {
+        this.ruta = ruta;
+    }
+
+    public List<Unidad> getUnidades() {
+        return unidades;
+    }
+
+    public void setUnidades(List<Unidad> unidades) {
+        this.unidades = unidades;
+    }
+
+    public List<ConvocatoriaExamen> getConvocatorias() {
+        return convocatorias;
+    }
+
+    public void setConvocatorias(List<ConvocatoriaExamen> convocatorias) {
+        this.convocatorias = convocatorias;
     }
     
 }

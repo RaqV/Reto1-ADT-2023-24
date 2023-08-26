@@ -12,27 +12,19 @@ import java.time.LocalDate;
  *
  * @author rvalv
  */
-public class Examen implements Serializable{
+public class ConvocatoriaExamen implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
-    private Long id;
+    private String convocatoria;
     
     private String descripcion;
     
     private LocalDate fecha;
     
-    //Esto debería ir con un patrón para controlar que el dato que se introduce es correcto
     private String curso;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    
+    
     public String getDescripcion() {
         return descripcion;
     }
@@ -55,6 +47,14 @@ public class Examen implements Serializable{
 
     public void setCurso(String curso) {
         this.curso = curso;
+    }
+
+    public String getConvocatoria() {
+        return convocatoria;
+    }
+
+    public void setConvocatoria(String convocatoria) {
+        this.convocatoria = convocatoria;
     }
 
     
