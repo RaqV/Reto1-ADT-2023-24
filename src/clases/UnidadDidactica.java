@@ -13,9 +13,11 @@ import java.util.List;
  *
  * @author rvalv
  */
-public class Unidad implements Serializable{
+public class UnidadDidactica implements Serializable{
     
     private static final long serialVersionUID = 1L;
+    
+    private long id;
     
     private String acronimo;
     
@@ -28,6 +30,14 @@ public class Unidad implements Serializable{
     //Relaciones
     private List<Enunciado> enunciados = new ArrayList<>();
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+    
     public String getAcronimo() {
         return acronimo;
     }
@@ -67,7 +77,9 @@ public class Unidad implements Serializable{
     public void setEnunciados(List<Enunciado> enunciados) {
         this.enunciados = enunciados;
     }
+
+   
     
-    
+ 
     
 }

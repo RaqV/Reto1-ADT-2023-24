@@ -17,7 +17,7 @@ public class Enunciado implements Serializable
 {
     private static final long serialVersionUID = 1L;
   
-    private Integer id;
+    private long id;
     
     private String descripcion;
     
@@ -28,17 +28,18 @@ public class Enunciado implements Serializable
     private String ruta;
     
     //Relaciones
-    private List<Unidad> unidades = new ArrayList<>();
+    private List<UnidadDidactica> unidades = new ArrayList<>();
     
     private List<ConvocatoriaExamen> convocatorias = new ArrayList<>();
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
+
     public String getDescripcion() {
         return descripcion;
     }
@@ -71,11 +72,11 @@ public class Enunciado implements Serializable
         this.ruta = ruta;
     }
 
-    public List<Unidad> getUnidades() {
+    public List<UnidadDidactica> getUnidades() {
         return unidades;
     }
 
-    public void setUnidades(List<Unidad> unidades) {
+    public void setUnidades(List<UnidadDidactica> unidades) {
         this.unidades = unidades;
     }
 
