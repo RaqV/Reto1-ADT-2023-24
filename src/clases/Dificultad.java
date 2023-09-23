@@ -6,6 +6,18 @@ package clases;
  */
 public enum Dificultad {
     
-    ALTA, MEDIA, BAJA
+    ALTA, MEDIA, BAJA;
+
+   
+    
+    public static Dificultad getDificultad(String dificultad)
+    {
+        for(Dificultad col : values())
+        {
+            if(col.equals(dificultad))
+                return col;
+        }
+        return Dificultad.ALTA;
+    }
    
 }

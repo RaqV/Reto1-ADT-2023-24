@@ -21,7 +21,7 @@ public class Enunciado implements Serializable
     
     private String descripcion;
     
-    private Dificultad dificultad;
+    private Dificultad nivel;
     
     private boolean disponibleClase;
     
@@ -30,7 +30,7 @@ public class Enunciado implements Serializable
     //Relaciones
     private List<UnidadDidactica> unidades = new ArrayList<>();
     
-    private List<ConvocatoriaExamen> convocatorias = new ArrayList<>();
+    //private List<ConvocatoriaExamen> convocatorias = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -48,14 +48,27 @@ public class Enunciado implements Serializable
         this.descripcion = descripcion;
     }
 
-    public Dificultad getDificultad() {
-        return dificultad;
+    public Dificultad getNivel() {
+        return nivel;
     }
 
-    public void setDificultad(Dificultad dificultad) {
-        this.dificultad = dificultad;
+    public Integer getNivelI() {
+        return nivel.ordinal();
+    }
+    
+    public void setNivel(Dificultad nivel) {
+        this.nivel = nivel;
     }
 
+     public void setNivel(Integer nivel) {
+      
+            for (Dificultad t :Dificultad.values()){
+                if (t.ordinal()==nivel){
+                    this.nivel = t;
+                }
+            }
+    }
+     
     public boolean isDisponibleClase() {
         return disponibleClase;
     }
@@ -80,12 +93,12 @@ public class Enunciado implements Serializable
         this.unidades = unidades;
     }
 
-    public List<ConvocatoriaExamen> getConvocatorias() {
-        return convocatorias;
-    }
-
-    public void setConvocatorias(List<ConvocatoriaExamen> convocatorias) {
-        this.convocatorias = convocatorias;
-    }
+//    public List<ConvocatoriaExamen> getConvocatorias() {
+//        return convocatorias;
+//    }
+//
+//    public void setConvocatorias(List<ConvocatoriaExamen> convocatorias) {
+//        this.convocatorias = convocatorias;
+//    }
     
 }

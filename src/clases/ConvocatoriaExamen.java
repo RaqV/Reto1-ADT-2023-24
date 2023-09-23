@@ -24,6 +24,16 @@ public class ConvocatoriaExamen implements Serializable{
     
     private String curso;
     
+    private long idEnunciado;
+
+    public long getIdEnunciado() {
+        return idEnunciado;
+    }
+
+    public void setIdEnunciado(long idEnunciado) {
+        this.idEnunciado = idEnunciado;
+    }
+    
     
     public String getDescripcion() {
         return descripcion;

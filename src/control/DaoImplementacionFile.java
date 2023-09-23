@@ -5,7 +5,6 @@
  */
 package control;
 
-
 import clases.ConvocatoriaExamen;
 import clases.Enunciado;
 import clases.UnidadDidactica;
@@ -26,401 +25,190 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utilidades.MiObjectOutputStream;
+import utilidades.MyObjectOutputStream;
+import utilidades.Util;
 import static utilidades.Util.calculoFichero;
 
 /**
  *
  * @author rvalv
  */
-public class DaoImplementacionFile implements Dao{
-    
+public class DaoImplementacionFile implements Dao {
+
     //Atributos
     private ResourceBundle configFile;
-    private String rutaCuentas;
-    private String rutaClientes;
-    private String rutaCtasCltes;
-    private String rutaMovimientos;
-    private String rutaCltesMovs;
-    
-    private File fichCuentas;
-    private File fichClientes;
-    private File fichCtasCltes;
-    private File fichMovimientos;
-    private File fichCltesMovs;
+    private String rutaFich;
+
+    private File fichConvocatorias;
 
     public DaoImplementacionFile() {
-        this.configFile = ResourceBundle.getBundle("control.configFich");
-        this.rutaCuentas = this.configFile.getString("cuentas");
-        this.rutaClientes = this.configFile.getString("clientes");
-        this.rutaCtasCltes = this.configFile.getString("ctasCltes");
-        this.rutaMovimientos = this.configFile.getString("movimientos");
-        this.rutaCltesMovs = this.configFile.getString("cltesMovs");
-        
-        this.fichCuentas = new File(this.rutaCuentas);
-        this.fichClientes = new File(this.rutaClientes);
-        this.fichCtasCltes= new File(this.rutaCtasCltes);
-        this.fichMovimientos = new File(this.rutaMovimientos);
-        this.fichCltesMovs = new File(this.rutaCltesMovs);   
-    }
-    
- 
-//    @Override
-//    public void crearCliente(Customer c) throws DaoException {
-//        MiObjectOutputStream moos = null;
-//        ObjectOutputStream oos = null;
-//        
-//        //El id del clientes se calcula de forma automática
-//        c.setId(calculoFichero(fichClientes)+1);
-//        try {
-//            if (fichClientes.exists()){
-//                moos = new MiObjectOutputStream(new FileOutputStream(fichClientes, true));
-//                moos.writeObject(c);
-//            }else{
-//                oos= new ObjectOutputStream(new FileOutputStream(fichClientes));
-//                oos.writeObject(c);
-//            }
-//        } catch (FileNotFoundException e1) {
-//            Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, e1);
-//        } catch (IOException ex) {
-//            Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (Exception e1) {
-//            throw new DaoException("ERROR "+e1.getMessage());
-//        } finally {
-//            if (moos!=null){
-//                try {
-//                    moos.close();
-//                } catch (IOException ex) {
-//                    Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//            if (oos!=null){
-//                try {
-//                    oos.close();
-//                } catch (IOException ex) {
-//                    Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//            
-//        }
-//    }
-//
-//    @Override
-//    public Customer consultarDatosCliente(long id) throws DaoException {
-//        Customer clte = null;
-//        FileInputStream fis = null;
-//        ObjectInputStream ois = null;
-//        boolean encontrado = false;
-//        
-//        if (fichClientes.exists()){
-//            int numClientes = calculoFichero(fichClientes);
-//            
-//            try {
-//                 ois = new ObjectInputStream (new FileInputStream(fichClientes));
-//            
-//                 for (int i=0; i<numClientes && !encontrado;i++){
-//                    clte=(Customer) ois.readObject();
-//   
-//                    if (clte.getId()==id){
-//                       // System.out.println("ENCONTRADO");
-//                        encontrado = true;
-//         
-//                    }
-//                }
-//            } catch (FileNotFoundException ex) {
-//                    Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (IOException ex) {
-//                    Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (ClassNotFoundException ex) {
-//                    Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//            } finally{
-//                try {
-//                    ois.close();
-//                } catch (IOException ex) {
-//                    Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }  
-//        }
-//        if (encontrado){
-//            return clte; 
-//        }else{
-//            return null;
-//        }
-//    }
-//
-//   
-//    @Override
-//    public boolean existeClte(Long id) throws DaoException {
-//        ObjectInputStream ois = null;
-//        Customer clte;
-//        boolean encontrado = false;
-//        int numClientes = calculoFichero(fichClientes);
-//        
-//        if (fichClientes.exists()){
-//            try {
-//                ois = new ObjectInputStream(new FileInputStream(fichClientes));
-//
-//                for (int i=0; i<numClientes && !encontrado;i++){
-//                   clte = (Customer) ois.readObject(); 
-//                   if (clte.getId() == id){
-//                       encontrado=true;
-//                   }
-//                }
-//            } catch (FileNotFoundException ex) {
-//                Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (IOException ex) {
-//                Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (ClassNotFoundException ex) {
-//                Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//            }finally{
-//                try {
-//                    ois.close();
-//                } catch (IOException ex) {
-//                    Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        }
-//        return encontrado;
-//    }
-//
-//    @Override
-//    public boolean existeCta(Long id) throws DaoException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public List<Account> consultarCuentasCliente(Long idClte) throws DaoException {
-//        
-//        Map<Long,Account> ctas = new HashMap<>();
-//        
-//        if(fichCuentas.exists()){
-//            ctas = obtenerCtasClte(idClte);
-//            completarCtas(ctas);
-//        }
-//        
-//        List<Account> cuentas = new ArrayList<>(ctas.values());  
-//        return cuentas; 
-//    }
-//
-//    @Override
-//    public void crearCuentaCliente(Long idClte, Account cta) throws DaoException {
-//        crearCuenta(cta);
-//        crearCtaClte(idClte, cta);
-//    }
-//
-//    @Override
-//    public void agregarClienteCuenta(Long idCta, Long idClte) throws DaoException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public Account consultarDatosCuenta(Long id) throws DaoException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public void realizarMovimiento(Long idCta, Movement mov) throws DaoException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public ArrayList<Movement> consultarMovimientoCuenta(Long id) throws DaoException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public Movement convertirMov(ResultSet rs) throws DaoException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    private void crearCuenta(Account cta) throws DaoException {
-//        MiObjectOutputStream moos = null;
-//        ObjectOutputStream oos = null;
-//        
-//        //El id del clientes se calcula de forma automática
-//        cta.setId(calculoFichero(fichCuentas)+1);
-//        try {
-//            if (fichCuentas.exists()){
-//                moos = new MiObjectOutputStream(new FileOutputStream(fichCuentas, true));
-//                moos.writeObject(cta);
-//            }else{
-//                oos= new ObjectOutputStream(new FileOutputStream(fichCuentas));
-//                oos.writeObject(cta);
-//            }
-//        } catch (FileNotFoundException e1) {
-//            Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, e1);
-//        } catch (IOException ex) {
-//            Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (Exception e1) {
-//            throw new DaoException("ERROR "+e1.getMessage());
-//        } finally {
-//            if (moos!=null){
-//                try {
-//                    moos.close();
-//                } catch (IOException ex) {
-//                    Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//            if (oos!=null){
-//                try {
-//                    oos.close();
-//                } catch (IOException ex) {
-//                    Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//            
-//        }
-//    }
-//
-//    private void crearCtaClte(Long idClte, Account cta) throws DaoException {
-//        MiObjectOutputStream moos = null;
-//        ObjectOutputStream oos = null;
-//        
-//        CustomerAccount ctaClte;
-//        ctaClte = new CustomerAccount(idClte, cta.getId());
-//        
-//        try {
-//            if (fichCtasCltes.exists()){
-//                moos = new MiObjectOutputStream(new FileOutputStream(fichCtasCltes, true));
-//                moos.writeObject(ctaClte);
-//            }else{
-//                oos= new ObjectOutputStream(new FileOutputStream(fichCtasCltes));
-//                oos.writeObject(ctaClte);
-//            }
-//        } catch (FileNotFoundException e1) {
-//            Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, e1);
-//        } catch (IOException ex) {
-//            Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (Exception e1) {
-//            throw new DaoException("ERROR "+e1.getMessage());
-//        } finally {
-//            if (moos!=null){
-//                try {
-//                    moos.close();
-//                } catch (IOException ex) {
-//                    Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//            if (oos!=null){
-//                try {
-//                    oos.close();
-//                } catch (IOException ex) {
-//                    Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//            
-//        }
-//    } 
-//
-//    private Map<Long,Account> obtenerCtasClte(Long idClte) {
-//        
-//        ObjectInputStream ois = null;
-//        CustomerAccount ctaClte;
-//        Account cta;
-//        
-//        int numCuentas = calculoFichero(fichCtasCltes);
-//        Map<Long,Account> cuentas = new HashMap<>();
-//        
-//        try {
-//            ois = new ObjectInputStream(new FileInputStream(fichCtasCltes));
-//            
-//            for (int i=0; i<numCuentas;i++){
-//               ctaClte = (CustomerAccount) ois.readObject(); 
-//               if (ctaClte.getCustomers_id() == idClte){
-//                   cta = new Account();
-//                   cta.setId(ctaClte.getAccounts_id());
-//                   cuentas.put(cta.getId(), cta);
-//               }
-//            }
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//        }finally{
-//            try {
-//                ois.close();
-//            } catch (IOException ex) {
-//                Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//        
-//        return cuentas;
-//    }
-//
-//    private void completarCtas(Map<Long,Account> ctas) {
-//        
-//        ObjectInputStream ois = null;
-//        Account cta;
-//            
-//        int numCuentas = calculoFichero(fichCuentas);
-//        
-//        try {
-//            ois = new ObjectInputStream(new FileInputStream(fichCuentas));
-//            
-//            for (int i=0; i<numCuentas;i++){
-//               cta= (Account) ois.readObject(); 
-//               if (ctas.containsKey(cta.getId())){
-//                   ctas.put(cta.getId(), cta);  
-//               }
-//            }
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//        }finally{
-//            try {
-//                ois.close();
-//            } catch (IOException ex) {
-//                Logger.getLogger(DaoImplementacionFile.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//    }
+        this.configFile = ResourceBundle.getBundle("control.config");
+        this.rutaFich = this.configFile.getString("Fich");
 
-    @Override
-    public boolean crearUnidadDidactica(UnidadDidactica u) throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
-        //VACIO 
+        this.fichConvocatorias = new File(rutaFich);
+        //this.fichConvocatorias = new File("convocatorias.obj");
+
     }
 
     @Override
     public boolean crearConvocatoria(ConvocatoriaExamen c) throws DaoException {
+        ObjectOutputStream os = null;
+        boolean correcto = false;
+
+        try {
+            if (fichConvocatorias.exists()) {
+                os = new MyObjectOutputStream(new FileOutputStream(fichConvocatorias, true));
+            } else {
+                os = new ObjectOutputStream(new FileOutputStream(fichConvocatorias));
+            }
+
+            os.writeObject(c);
+            correcto = true;
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            try {
+                os.flush();
+                os.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return correcto;
+    }
+
+//   
+    @Override
+    public boolean crearUnidadDidactica(UnidadDidactica u) throws DaoException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        //VACIO 
     }
 
     @Override
     public boolean crearEnunciado(Enunciado e) throws DaoException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
+
         //VACIO 
     }
 
     @Override
-    public List<Enunciado> consultarEnunciados(UnidadDidactica u) throws DaoException {
+    public Enunciado consultarEnunciado(Enunciado e) throws DaoException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         //VACIO 
     }
 
+  
+
     @Override
-    public List<ConvocatoriaExamen> consultarConvocatorias(Enunciado e) throws DaoException {
+    public UnidadDidactica consultarUnidadDidactica(UnidadDidactica u) throws DaoException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        //VACIO 
     }
 
     @Override
-    public Enunciado consultarEnuciado(Enunciado e) throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        //VACIO 
+    public ConvocatoriaExamen consultarConvocatoria(ConvocatoriaExamen c) throws DaoException {
+        // Listamos toda la información
+
+        ConvocatoriaExamen convocatoria = null;
+
+        ObjectInputStream ois = null;
+
+        // Buscamos en el fichero
+        if (fichConvocatorias.exists()) {
+            try {
+                ois = new ObjectInputStream(new FileInputStream(fichConvocatorias));
+
+                while (true) {
+                    convocatoria = (ConvocatoriaExamen) ois.readObject();
+                    //
+                    if (convocatoria.getConvocatoria().equalsIgnoreCase(c.getConvocatoria())) {
+                        break;
+                    }
+                }
+            } catch (EOFException e) {
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+
+                e.printStackTrace();
+            } finally {
+                try {
+                    ois.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return convocatoria;
     }
 
     @Override
-    public void asignarEnunciadoAConvocatoria(Enunciado e) throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
-        //VACIO 
+    public boolean asignarEnunciadoAConvocatoria(Enunciado e, ConvocatoriaExamen c) {
+        File aux = new File("temporal.dat");
+        ObjectInputStream ois = null;
+        ObjectOutputStream oos = null;
+        int numConvocatorias;
+        boolean modificado = false;
+        ConvocatoriaExamen convocatoria;
+
+        if (fichConvocatorias.exists()) {
+            numConvocatorias = Util.calculoFichero(fichConvocatorias);
+
+            try {
+                ois = new ObjectInputStream(new FileInputStream(fichConvocatorias));
+                oos = new ObjectOutputStream(new FileOutputStream(aux));
+
+                for (int i = 0; i < numConvocatorias; i++) {
+                    convocatoria = (ConvocatoriaExamen) ois.readObject();
+                    if (convocatoria.getConvocatoria().equalsIgnoreCase(c.getConvocatoria())) {
+                        convocatoria.setIdEnunciado(e.getId());
+                        modificado = true;
+                    }
+                    oos.writeObject(convocatoria);
+                }
+                //Hay que poner una excepción
+//		if (!modificado) {
+//                    System.out.println("NO se ha encontrado la alumna buscada");
+//		}
+            } catch (IOException ex) {
+                // TODO Auto-generated catch block
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                // TODO Auto-generated catch block
+                ex.printStackTrace();
+            } finally {
+                try {
+                    ois.close();
+                    oos.flush();
+                    oos.close();
+                    if (modificado) {
+                        fichConvocatorias.delete();
+                        aux.renameTo(fichConvocatorias);
+                    }
+                } catch (IOException ex) {
+                    // TODO Auto-generated catch block
+                    ex.printStackTrace();
+                }
+            }
+        }
+//        else {
+//			System.out.println("No hay información en el fichero. Ir a la opción 1 de menu");
+//		}
+        return modificado;
     }
+
+    @Override
+    public List<ConvocatoriaExamen> consultarConvocatoriasE(Enunciado e) throws DaoException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

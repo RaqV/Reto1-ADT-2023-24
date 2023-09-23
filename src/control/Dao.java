@@ -22,8 +22,9 @@ public interface Dao {
     public boolean crearUnidadDidactica(UnidadDidactica u) throws DaoException; 
     public boolean crearConvocatoria(ConvocatoriaExamen c) throws DaoException;
     public boolean crearEnunciado(Enunciado e) throws DaoException;
-    public List<Enunciado> consultarEnunciados(UnidadDidactica u) throws DaoException;
-    public List<ConvocatoriaExamen> consultarConvocatorias(Enunciado e) throws DaoException;
-    public Enunciado consultarEnuciado(Enunciado e)throws DaoException;
-    public void asignarEnunciadoAConvocatoria(Enunciado e) throws DaoException; 
+    public UnidadDidactica consultarUnidadDidactica(UnidadDidactica u) throws DaoException;
+    public ConvocatoriaExamen consultarConvocatoria(ConvocatoriaExamen c) throws DaoException;
+    public Enunciado consultarEnunciado(Enunciado e)throws DaoException;
+    public boolean asignarEnunciadoAConvocatoria(Enunciado e, ConvocatoriaExamen c) throws DaoException; 
+    public List<ConvocatoriaExamen> consultarConvocatoriasE(Enunciado e)throws DaoException;
 }

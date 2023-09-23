@@ -5,7 +5,6 @@
  */
 package utilidades;
 
-
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.File;
@@ -99,6 +98,25 @@ public class Util {
             System.exit(0);
         }
         return cadena;
+    }
+
+    public static String introducirCadena(String[] posibilidades, String mensaje) {
+        String cadena;
+        boolean error;
+        do {
+            /*System.out.println("Introduce respuesta: ");*/
+            cadena = introducirCadena(mensaje);
+
+            for (int i = 0; i < posibilidades.length; i++) {
+                if (posibilidades[i].equalsIgnoreCase(cadena)) {
+                    return cadena.toUpperCase();
+                }
+            }
+
+            System.out.println("Error, opcion no valida, vuelve a introducir");
+            error = true;
+        } while (error);
+        return posibilidades[0];
     }
 
     public static char respCharList(String s) {
@@ -232,8 +250,6 @@ public class Util {
         return num;
     }
 
-
-    
     public static float leerFloat(float n, float m) {
         float num = 0;
         boolean error;

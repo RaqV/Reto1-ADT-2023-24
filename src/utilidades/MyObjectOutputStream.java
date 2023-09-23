@@ -4,20 +4,20 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-public class MiObjectOutputStream extends ObjectOutputStream{
+public class MyObjectOutputStream extends ObjectOutputStream{
 	
-	//Sobrescribimos el método que crea la cabecera 
+	//Sobrescribimos el mï¿½todo que crea la cabecera 
 		protected void writeStreamHeader() throws IOException {
-			// No hacer nada. 
+			// No hacer nada.ï¿½
 			reset();
 		}
 
 		//Constructores
-		public MiObjectOutputStream () throws IOException{ 
+		public MyObjectOutputStream () throws IOException{ 
 			super();
 		}
 		
-		public MiObjectOutputStream(OutputStream out) throws IOException{
+		public MyObjectOutputStream(OutputStream out) throws IOException{
 			super(out);
 		}
 }

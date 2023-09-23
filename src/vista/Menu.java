@@ -4,6 +4,9 @@
  */
 package vista;
 
+import clases.ConvocatoriaExamen;
+import clases.Dificultad;
+import clases.Enunciado;
 import clases.UnidadDidactica;
 import control.Controlador;
 import exception.DaoException;
@@ -28,27 +31,27 @@ public class Menu {
                     crearUnidadDidactica(controlador);
                     break;
                 case 2:
-                    controlador.crearConvocatoriaExamen();
+                    crearConvocatoriaExamen(controlador);
                     break;
                 case 3:
-                    controlador.crearEnunciado();
+                    crearEnunciado(controlador);
                     break;
                 case 4:
-                    controlador.consultarEnunciados();
+                    //consultarEnunciados();
                     break;
                 case 5:
-                    controlador.consultarConvocatoriasExamen();
+                    //consultarConvocatoriasExamen();
                     break;
                 case 6:
-                    controlador.visualizarEnunciado();
+                    visualizarEnunciado(controlador);
                     break;
                 case 7:
-                    controlador.asignarEnunciadoAConvocatoria();
+                    //controlador.asignarEnunciadoAConvocatoria();
                     break;
                 default:
                     System.out.println("Agur");
             }
-           } while (opc!=9);
+           } while (opc!=8);
             
     }
 
@@ -84,5 +87,62 @@ public class Menu {
         unidad.setDescripcion(Util.introducirCadena("Introduce Descripción"));
                 
         System.out.println(controlador.crearUnidadDidactica(unidad)? "Unidad Dídáctica Creada":" No se ha podido crear la Unidad Didáctica" );
+    }
+
+    private static void crearConvocatoriaExamen(Controlador controlador) throws DaoException {
+        
+        ConvocatoriaExamen convocatoria = new ConvocatoriaExamen();
+        convocatoria.setConvocatoria(Util.introducirCadena("Introduce el Acronimo"));
+        convocatoria.setDescripcion(Util.introducirCadena("Introduce Descripción"));
+        convocatoria.setFecha(Util.leerFecha("Introduce la fecha"));
+        convocatoria.setCurso(Util.introducirCadena("Introduce el curso"));
+        
+                
+        System.out.println(controlador.crearConvocatoriaExamen(convocatoria)? "Convocatoria de Examen Creada":" No se ha podido crear la Convocatoria de Examen" );
+    }
+
+    private static void crearEnunciado(Controlador controlador) throws DaoException {
+      String [] posibilidades = {"Alta", "Media", "Baja"};
+      UnidadDidactica unidad = new UnidadDidactica();
+      ConvocatoriaExamen convocatoria = new ConvocatoriaExamen();
+        
+      Enunciado enunciado = new Enunciado();
+      enunciado.setDescripcion(Util.introducirCadena("Introduce la Descripción"));
+      String cadena = Util.introducirCadena(posibilidades, "Introduce la dificultad: Alta, Baja o Media");
+      enunciado.setNivel(Dificultad.valueOf(cadena));
+      enunciado.setDisponibleClase(Util.leerBoolean("Esta Disponible????"));
+      enunciado.setRuta(Util.introducirCadena("Introduce la ruta en la que esta guardado"));
+      
+      //Unidades Didácticas incluidas para el Enunciado
+        System.out.println("Introduce ahora las Unidades Didácticas que se trabajan en el Enunciado: ");
+      do{ 
+        unidad.setAcronimo(Util.introducirCadena("Introduce el Acronimo"));
+        //Tenemos que comprobar que exista la unidad
+        if ((unidad = controlador.consultarUnidadDidactica(unidad))!= null){
+            enunciado.getUnidades().add(unidad);
+        }else{
+            System.out.println("No existe la Unidad Didáctica para la que quieres crear el Enunciado. Tienes que crearla!!");
+        }
+      }while(Util.leerBoolean("Quires añadir más Uniddades Didácticas?"));
+      
+      if(!enunciado.getUnidades().isEmpty()){
+        //Convocatoria de Examen para el enunciado
+        convocatoria.setConvocatoria(Util.introducirCadena("Introduce la convocatoria"));
+        //Tenemos que comprobar que exista la convocatoria
+        if (controlador.consultarConvocatoriaExamen(convocatoria)!= null){
+          System.out.println(controlador.crearEnunciado(enunciado, convocatoria)? "Enunciado de Examen Creado":" No se ha podido crear el Enunciado" );
+        }else{
+            System.out.println("No existe la Convocatoria para la que quieres crear el Enunciado. Crea primero la Convocatoria!!");
+        }
+      }else{
+          System.out.println("No existe ninguna de la Unidades Didácticas para las que quieres crear el Enunciado. Crea primero alguna de estas U.D.!!");
+      }
+    }
+
+    private static void visualizarEnunciado(Controlador controlador) {
+        Enunciado enunciado = new Enunciado();
+        
+        enunciado.setId(Util.leerInt("Introduce la Id del Enunciado"));
+        System.out.println(controlador.visualizarEnunciado(enunciado)? "Enunciado de Examen Visualizado":" No se ha podido visualizar el Enunciado" );
     }
 }
